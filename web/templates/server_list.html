@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container">
+        <h1>服务器列表</h1>
+        <div>
+            <a href="{% url "server_add" %}" style="margin: 10px 0"
+               class="btn btn-primary pull-right">添加</a>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>主机名</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in queryset %}
+                <tr>
+                    <th>{{ row.id }}</th>
+                    <th>{{ row.hostname }}</th>
+                    <th>
+                        <a href="{% url 'server_edit' pk=row.id %}"
+                           class="btn btn-primary">编辑</a>
+                        <a onclick="removeRow(this,{{ row.id }})"
+                           class="btn btn-danger">删除</a>
+                    </th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function removeRow(elm, id) {
+            var result = confirm('是否确定要删除？')
+            if (result) {
+                $.get({
+                    url: `/server/del/${id}/`,
+                    dataType: 'JSON',
+                    success: function (res) {
+                        if (res.status) {
+                            $(elm).parent().parent().remove()
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+{% endblock %}
+
+
