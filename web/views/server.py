@@ -5,30 +5,14 @@
 """
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.forms import ModelForm
 
 from web import models
+from web.forms.server import ServerModelForm
 
 
 def server_list(request):
     queryset = models.Server.objects.all()
     return render(request, 'server_list.html', {'queryset': queryset})
-
-
-class ServerModelForm(ModelForm):
-    exclude_bootstrap = []
-
-    class Meta:
-        model = models.Server
-        fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super(ServerModelForm, self).__init__(*args, **kwargs)
-
-        # 给字段添加样式
-        for key, field in self.fields.items():
-            if key not in self.exclude_bootstrap:
-                field.widget.attrs['class'] = 'form-control'
 
 
 def server_add(request):

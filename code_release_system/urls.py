@@ -16,12 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from web.views import server
+from web.views import server, project
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('server/list/', server.server_list, name='server_list'),
     path('server/add/', server.server_add, name='server_add'),
     path('server/edit/<pk>/', server.server_edit, name='server_edit'),
     path('server/del/<pk>/', server.server_del, name='server_del'),
+
+    path('project/list/', project.project_list, name='project_list'),
+    path('project/add/', project.project_add, name='project_add'),
+    path('project/edit/<pk>/', project.project_edit, name='project_edit'),
+    path('project/del/<pk>/', project.project_del, name='project_del'),
 ]
