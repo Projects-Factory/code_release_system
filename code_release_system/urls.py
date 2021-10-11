@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from web.views import server, project
+from web.views import server, project, task
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +30,7 @@ urlpatterns = [
     path('project/add/', project.project_add, name='project_add'),
     path('project/edit/<pk>/', project.project_edit, name='project_edit'),
     path('project/del/<pk>/', project.project_del, name='project_del'),
+
+    path('task/list/<project_id>/', task.task_list, name='task_list'),
+    path('task/add/<project_id>/', task.task_add, name='task_add'),
 ]

@@ -1,40 +1,27 @@
 {% extends 'layout.html' %}
 {% block content %}
     <div class="container">
-        <h1>项目列表</h1>
+        <h1>发布任务单:{{ project_obj.title }}-{{ project_obj.get_env_display }}</h1>
         <div>
-            <a href="{% url "project_add" %}" style="margin: 10px 0"
+            <a href="{% url 'task_add' project_id=project_obj.id %}"
+               style="margin: 10px 0"
                class="btn btn-primary pull-right">添加</a>
         </div>
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>ID</th>
-                <th>项目名</th>
-                <th>环境</th>
-                <th>仓库地址</th>
-                <th>线上路径</th>
-                <th>关联服务器</th>
-                <th>发布任务</th>
+                <th>标识</th>
+                <th>状态</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            {% for row in queryset %}
+            {% for row in task_list %}
                 <tr>
                     <th>{{ row.id }}</th>
-                    <th>{{ row.title }}</th>
-                    <th>{{ row.get_env_display }}</th>
-                    <th>{{ row.repo }}</th>
-                    <th>{{ row.path }}</th>
-                    <th>
-                        {% for item in row.servers.all %}
-                            <span style="border: 1px solid #ddd;padding: 5px">{{ item }}</span>
-                        {% endfor %}
-                    </th>
-                    <th>
-                        <a href="{% url 'task_list' project_id=row.id %}">发布任务</a>
-                    </th>
+                    <th>{{ row.uid }}</th>
+                    <th>{{ row.get_status_display }}</th>
                     <th>
                         <a href="{% url 'project_edit' pk=row.id %}"
                            class="btn btn-primary">编辑</a>
