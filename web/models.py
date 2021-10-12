@@ -73,4 +73,4 @@ class Node(models.Model):
     parent = models.ForeignKey(verbose_name='父节点', to='self',
                                on_delete=models.CASCADE, null=True, blank=True)
     server = models.ForeignKey(verbose_name='服务器', to='Server',
-                               on_delete=models.CASCADE)
+                               on_delete=models.CASCADE, null=True, blank=True)
