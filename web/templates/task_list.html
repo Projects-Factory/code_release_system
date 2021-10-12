@@ -13,7 +13,7 @@
                 <th>ID</th>
                 <th>标识</th>
                 <th>状态</th>
-                <th>操作</th>
+                <th>发布</th>
             </tr>
             </thead>
             <tbody>
@@ -22,12 +22,7 @@
                     <th>{{ row.id }}</th>
                     <th>{{ row.uid }}</th>
                     <th>{{ row.get_status_display }}</th>
-                    <th>
-                        <a href="{% url 'project_edit' pk=row.id %}"
-                           class="btn btn-primary">编辑</a>
-                        <a onclick="removeRow(this,{{ row.id }})"
-                           class="btn btn-danger">删除</a>
-                    </th>
+                    <th><a href="{% url 'deploy' task_id=row.id %}">去发布</a></th>
                 </tr>
             {% endfor %}
             </tbody>

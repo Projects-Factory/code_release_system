@@ -1,0 +1,101 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h1>Channels 发布</h1>
+        <input type="submit" class="btn btn-primary pull-right"
+               value="初始化图标" onclick="createDiagram()">
+        <input type="submit" class="btn btn-primary pull-right" value="代码发布">
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <td>项目名称：{{ project_obj.title }}</td>
+                <td>环境：{{ project_obj.get_env_display }}</td>
+            </tr>
+            <tr>
+                <td>版本：{{ task_obj.tag }}</td>
+                <td>状态：{{ task_obj.get_status_display }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">仓库地址：{{ project_obj.repo }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">线上路径：{{ project_obj.path }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div>关联服务器</div>
+                    <ul>
+                        {% for item in project_obj.servers.all %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="content"
+             style="width: 100%;height: 350px;background-color: #DAE4E4"></div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'go-no-logo.js' %}"></script>
+    <script>
+        var diagram
+        var ws
+
+        $(function () {
+            initWebSocket()
+            initDiagram()
+        })
+
+        function initDiagram() {
+            var $ = go.GraphObject.make;
+            diagram = $(go.Diagram, "content", {
+                layout: $(go.TreeLayout, {
+                    angle: 0,
+                    nodeSpacing: 20,
+                    layerSpacing: 70
+                })
+            });
+
+            diagram.nodeTemplate = $(go.Node, "Auto",
+                $(go.Shape, {
+                    figure: "RoundedRectangle",
+                    fill: 'lightgray',
+                    stroke: 'lightgray'
+                }, new go.Binding("figure", "figure"), new go.Binding("fill", "color"), new go.Binding("stroke", "color")),
+                $(go.TextBlock, {margin: 8}, new go.Binding("text", "text"))
+            );
+
+            diagram.linkTemplate = $(go.Link,
+                {routing: go.Link.Orthogonal},
+                $(go.Shape, {stroke: 'lightgray'}, new go.Binding('stroke', 'link_color')),
+                $(go.Shape, {
+                    toArrow: "OpenTriangle",
+                    stroke: 'lightgray'
+                }, new go.Binding('stroke', 'link_color'))
+            );
+
+            /*
+            diagram.model = new go.TreeModel(nodeDataArray);
+             */
+        }
+
+        function initWebSocket() {
+            ws = new WebSocket('ws://127.0.0.1:8000/publish/{{ task_obj.id }}/')
+            ws.onmessage = function (e) {
+                var result = JSON.parse(e.data);
+                if (result.code === 'init') {
+                    diagram.model = new go.TreeModel(result.data)
+                }
+            }
+        }
+
+        function createDiagram() {
+            ws.send('init')
+        }
+    </script>
+{% endblock %}

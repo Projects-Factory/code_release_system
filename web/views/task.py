@@ -41,3 +41,9 @@ def task_add(request, project_id):
 def hook_template(request, tid):
     template = models.HookTemplate.objects.filter(id=tid).first()
     return JsonResponse({'status': True, 'content': template.content})
+
+
+def deploy(request, task_id):
+    task_obj = models.DeployTask.objects.filter(id=task_id).first()
+    return render(request, 'deploy.html',
+                  {'project_obj': task_obj.project, 'task_obj': task_obj})

@@ -35,4 +35,6 @@ urlpatterns = [
     path('task/add/<project_id>/', task.task_add, name='task_add'),
 
     path('hook/template/<tid>/', task.hook_template, name='hook_template'),
+
+    path('deploy/<task_id>/', task.deploy, name='deploy'),
 ]
