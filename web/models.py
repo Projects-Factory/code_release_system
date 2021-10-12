@@ -44,3 +44,16 @@ class DeployTask(models.Model):
                                             blank=True)
     after_deploy_script = models.TextField(verbose_name='发布后脚本', null=True,
                                            blank=True)
+
+
+class HookTemplate(models.Model):
+    title = models.CharField(verbose_name='标题', max_length=32)
+    content = models.TextField(verbose_name='脚本内容')
+    hook_type_choices = (
+        (2, '下载前'),
+        (4, '下载后'),
+        (6, '发布前'),
+        (8, '发布后'),
+    )
+    hook_type = models.IntegerField(verbose_name='hook类型',
+                                    choices=hook_type_choices)

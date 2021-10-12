@@ -3,8 +3,9 @@
 @author: LiaoKong
 @time: 2021/10/11 21:55 
 """
-from django.shortcuts import HttpResponse, render, redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.http import JsonResponse
 
 from web import models
 from web.forms.task import TaskModelForm
@@ -35,3 +36,8 @@ def task_add(request, project_id):
 
     return render(request, 'task_form.html',
                   {'form': form, 'project_obj': project_obj})
+
+
+def hook_template(request, tid):
+    template = models.HookTemplate.objects.filter(id=tid).first()
+    return JsonResponse({'status': True, 'content': template.content})
