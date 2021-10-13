@@ -4,9 +4,10 @@
 {% block content %}
     <div class="container">
         <h1>Channels 发布</h1>
-        <input type="submit" class="btn btn-primary pull-right"
+        <input type="submit" class="btn btn-primary"
                value="初始化图表" onclick="createDiagram()">
-        <input type="submit" class="btn btn-primary pull-right" value="代码发布">
+        <input type="submit" class="btn btn-primary" value="代码发布"
+               onclick="doDeploy()">
         <table class="table table-bordered">
             <tbody>
             <tr>
@@ -96,6 +97,10 @@
 
         function createDiagram() {
             ws.send('init')
+        }
+
+        function doDeploy() {
+            ws.send('deploy')
         }
     </script>
 {% endblock %}
