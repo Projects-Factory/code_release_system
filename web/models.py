@@ -64,12 +64,12 @@ class Node(models.Model):
                              on_delete=models.CASCADE)
     text = models.CharField(verbose_name='节点文字', max_length=32)
     status_choices = (
-        ('grey', '待发布'),
+        ('lightgrey', '待发布'),
         ('green', '发布成功'),
         ('red', '发布失败'),
     )
     status = models.CharField(verbose_name='状态', choices=status_choices,
-                              max_length=16)
+                              max_length=16, default='lightgrey')
     parent = models.ForeignKey(verbose_name='父节点', to='self',
                                on_delete=models.CASCADE, null=True, blank=True)
     server = models.ForeignKey(verbose_name='服务器', to='Server',
