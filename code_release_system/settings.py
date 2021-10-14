@@ -127,3 +127,12 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels.layers.InMemoryChannelLayer",
     }
 }
+
+# ###########发布系统配置#################
+DEPLOY_CODE_PATH = os.path.join(BASE_DIR, 'codes')
+PACKAGE_PATH = os.path.join(BASE_DIR, 'packages')
+
+SSH_PORT = '22'
+SSH_USER = 'root'
+PRIVATE_RSA_PATH = os.path.join(BASE_DIR, 'id_rsa')
+SERVER_PACKAGE_PATH = '/data/packages/'

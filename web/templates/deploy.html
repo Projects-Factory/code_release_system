@@ -91,6 +91,10 @@
                 var result = JSON.parse(e.data);
                 if (result.code === 'init') {
                     diagram.model = new go.TreeModel(result.data)
+                } else if (result.code === 'update') {
+                    // 更新节点颜色
+                    var node = diagram.model.findNodeDataForKey(result.node_id)
+                    diagram.model.setDataProperty(node, 'color', result.color)
                 }
             }
         }
